@@ -1,0 +1,26 @@
+import hashlib
+import colorama
+from colorama import Fore, Back, Style
+colorama.init()
+
+arq_0 = input ("Escolha o arquivo original: ").lower()
+arq_1 = input ("Escolha um arquivo para comparaçao: ").lower()
+
+hash_0 = hashlib.new('md5')
+hash_0.update(open(arq_0, 'rb').read())
+
+hash_1 = hashlib.new('md5')
+hash_1.update(open(arq_1, 'rb').read())
+
+if hash_0.digest() != hash_1.digest():
+    pergunta = input ("Os arquivos estão diferentes, voce deseja restaurar a configuração? ").upper()
+    if pergunta == "SIM":
+        arquivo = open(arq_0, "r")
+        conteudo = arquivo.readlines()
+        arquivo.close()
+        arquivo = open (arq_1, "w")
+        arquivo.writelines(conteudo)
+        arquivo.close()
+        print (Fore.GREEN + "Arquivo restaurado !!!" + Style.RESET_ALL)
+else:
+    print (Fore.RED + "O arquivo esta igual !!!" + Style.RESET_ALL)
